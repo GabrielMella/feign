@@ -31,8 +31,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class ExceptionGenerator {
+
+  private static final Logger logger = Logger.getLogger(ExceptionGenerator.class.getName());
 
   private static final Response TEST_RESPONSE;
 
@@ -110,10 +114,16 @@ class ExceptionGenerator {
     try {
       return bodyDecoder.decode(response, bodyType);
     } catch (IOException e) {
-      // How do we log this?
+      logger.log(
+          Level.WARNING,
+          "Failed to decode response body for exception type " + exceptionType.getName(),
+          e);
       return null;
     } catch (DecodeException e) {
-      // How do we log this?
+      logger.log(
+          Level.WARNING,
+          "Failed to decode response body for exception type " + exceptionType.getName(),
+          e);
       return null;
     }
   }
